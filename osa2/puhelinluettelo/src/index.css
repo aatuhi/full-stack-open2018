@@ -1,0 +1,15 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+.error {
+	color: black;
+	background: lightgreen;
+	font-size: 20px;
+	border-style: hidden;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 10px;
+}
