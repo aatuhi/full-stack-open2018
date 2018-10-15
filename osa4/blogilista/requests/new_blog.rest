@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+content-type: application/json
+
+{
+    "title": "testi-blogi2",
+    "author": "järveliina kausaliina",
+    "url": "www.blogi.fi",
+    "likes": 123
+}
+
