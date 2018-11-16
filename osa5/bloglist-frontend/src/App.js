@@ -3,6 +3,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
 
 class App extends React.Component {
   constructor(props) {
@@ -12,11 +13,15 @@ class App extends React.Component {
       username: '',
       password: '',
       user: null,
+      title: '',
+      author: '',
+      url: '',
       error: null,
     }
   }
 
   componentDidMount() {
+    console.log('component did mount')
     blogService.getAll().then(blogs => this.setState({ blogs }))
 
     const loggedUser = window.localStorage.getItem('loggedUser')
@@ -25,7 +30,7 @@ class App extends React.Component {
     }
   }
 
-  onLoginFieldChange = event => {
+  onFieldChange = event => {
     this.setState({ [event.target.name]: event.target.value })
   }
 
@@ -37,13 +42,11 @@ class App extends React.Component {
         password: this.state.password,
       })
       window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      blogService.setToken(user.token)
       this.setState({ username: '', password: '', user })
-      console.log('logged in')
-      console.log(this.state)
     } catch (execption) {
       console.log(execption)
       this.setState({ error: 'invalid username or password ' })
-      console.log(this.state.error)
       setTimeout(() => {
         this.setState({ error: null })
       }, 5000)
@@ -52,17 +55,60 @@ class App extends React.Component {
 
   onLogout = event => {
     event.preventDefault()
+    window.localStorage.removeItem('loggedUser')
     this.setState({ user: null })
   }
 
+  onCreateNewBlog = async event => {
+    event.preventDefault()
+    try {
+      await blogService.create({
+        title: this.state.title,
+        author: this.state.author,
+        url: this.state.url,
+      })
+      this.setState({ title: '', author: '', url: '' })
+    } catch (execption) {
+      console.log(execption)
+      this.setState({ error: 'failed' })
+      setTimeout(() => {
+        this.setState({ error: null })
+      }, 5000)
+    }
+    const updatedBlogs = await blogService.getAll()
+    this.setState({ blogs: updatedBlogs })
+  }
+
   render() {
+    console.log('rendering')
+    // const newBlogForm = () => (
+    //   <div>
+    //     <h3>Create a new blog</h3>
+    //     <form onSubmit={this.onCreateNewBlog}>
+    //       <div>
+    //         Title:
+    //         <input type="text" name="title" onChange={this.onFieldChange} />
+    //       </div>
+    //       <div>
+    //         Author:
+    //         <input type="text" name="author" onChange={this.onFieldChange} />
+    //       </div>
+    //       <div>
+    //         Url:
+    //         <input type="text" name="url" onChange={this.onFieldChange} />
+    //       </div>
+    //       <button type="submit">Create</button>
+    //     </form>
+    //   </div>
+    // )
+
     return (
       <div>
         {this.state.user === null ? (
           <LoginForm
             username={this.state.username}
             password={this.state.password}
-            onLoginFieldChange={this.onLoginFieldChange}
+            onFieldChange={this.onFieldChange}
             onLogin={this.onLogin}
           />
         ) : (
@@ -71,6 +117,13 @@ class App extends React.Component {
             <button type="button" onClick={this.onLogout}>
               Log out
             </button>
+            <BlogForm
+              title={this.state.title}
+              author={this.state.author}
+              url={this.state.url}
+              onCreateNewBlog={this.onCreateNewBlog}
+              onFieldChange={this.onFieldChange}
+            />
             <BlogList blogs={this.state.blogs} />
           </div>
         )}
