@@ -4,7 +4,7 @@ const BlogForm = props => {
   return (
     <div>
       <h3>Create a new blog</h3>
-      <form onSubmit={props.onCreateNewBlog}>
+      <form onSubmit={props.onCreateBlog}>
         <div>
           Title:
           <input type="text" name="title" value={props.title} onChange={props.onFieldChange} />

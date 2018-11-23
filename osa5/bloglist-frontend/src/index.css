@@ -1,0 +1,43 @@
+body {
+  margin: 20;
+  padding: 20;
+  background: rgb(225, 210, 230);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.notification-good {
+  color: black;
+  background: lightgreen;
+  font-size: 20px;
+  border-style: hidden;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.notification-bad {
+  color: white;
+  background: rgb(220, 30, 30);
+  font-size: 20px;
+  border-style: hidden;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.blog-selected {
+  background: lightpink;
+  color: rgb(40, 40, 40);
+  border-style: hidden;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 70%;
+}
+
+li:hover {
+  color: lightpink;
+  border-style: hidden;
+  border-radius: 5px;
+  margin: 50;
+}
