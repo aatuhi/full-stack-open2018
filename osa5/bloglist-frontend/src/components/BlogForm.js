@@ -2,7 +2,7 @@ import React from 'react'
 
 const BlogForm = props => {
   return (
-    <div>
+    <div className="blog-form">
       <h3>Create a new blog</h3>
       <form onSubmit={props.onCreateBlog}>
         <div>

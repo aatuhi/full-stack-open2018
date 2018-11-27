@@ -149,6 +149,7 @@ class App extends React.Component {
               blogs={this.state.blogs}
               onDeleteBlog={this.deleteBlog}
               onBlogLike={this.handleBlogLike}
+              currentUser={this.state.user}
             />
           </div>
         )}

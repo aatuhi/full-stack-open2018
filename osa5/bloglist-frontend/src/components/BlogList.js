@@ -3,7 +3,7 @@ import Blog from './Blog'
 
 const BlogList = props => {
   return (
-    <div>
+    <div className="blog-list">
       <h2>Blogs</h2>
       <h3>Click a title!</h3>
       <ul style={{ listStyleType: 'square' }}>
@@ -13,6 +13,7 @@ const BlogList = props => {
             blog={blog}
             onBlogLike={props.onBlogLike}
             onDeleteBlog={props.onDeleteBlog}
+            currentUser={props.currentUser}
           />
         ))}
       </ul>

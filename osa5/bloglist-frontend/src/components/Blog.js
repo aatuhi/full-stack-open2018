@@ -12,7 +12,7 @@ class Blog extends React.Component {
   }
 
   render() {
-    const loggedUsername = JSON.parse(window.localStorage.loggedUser).username
+    const loggedUsername = this.props.currentUser.username
     const blogUsername = this.props.blog.user.username
 
     if (this.state.selected) {
@@ -41,8 +41,8 @@ class Blog extends React.Component {
       )
     }
     return (
-      <div onClick={this.toggleSelected}>
-        <li>
+      <div onClick={this.toggleSelected} className="blog-unselected">
+        <li className="title">
           {this.props.blog.title} {this.props.blog.author}
         </li>
       </div>
