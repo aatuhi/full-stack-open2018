@@ -4,12 +4,12 @@ import { anecdoteCreation } from './../reducers/anecdoteReducer'
 import { setNotification } from './../reducers/notificationReducer'
 
 class AnecdoteForm extends React.Component {
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault()
-    this.props.anecdoteCreation(event.target.anecdote.value)
-    this.props.setNotification(`You added an anecdote '${event.target.anecdote.value}'`)
-    setTimeout(() => this.props.setNotification(null), 5000)
+    const content = event.target.anecdote.value
     event.target.anecdote.value = ''
+    this.props.anecdoteCreation(content)
+    this.props.setNotification(`You added an anecdote '${content}'`, 5)
   }
 
   render() {
