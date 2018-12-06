@@ -11,6 +11,8 @@ import Togglable from './components/Togglable'
 import UserList from './components/UserList'
 import User from './components/User'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { setNotification } from './reducers/notificationReducer'
+import { connect } from 'react-redux'
 
 class App extends React.Component {
   constructor(props) {
@@ -24,8 +26,6 @@ class App extends React.Component {
       title: '',
       author: '',
       url: '',
-      message: null,
-      error: false, // for notification styling
     }
   }
 
@@ -58,16 +58,10 @@ class App extends React.Component {
       window.localStorage.setItem('loggedUser', JSON.stringify(user))
       blogService.setToken(user.token)
       this.setState({ username: '', password: '', user })
-      this.setState({ error: false, message: `Welcome ${user.name}!` })
-      setTimeout(() => {
-        this.setState({ error: false, message: null })
-      }, 3000)
+      this.props.setNotification(`Welcome ${this.state.user.name}`, 5)
     } catch (execption) {
       console.log(execption)
-      this.setState({ error: true, message: 'invalid username or password ' })
-      setTimeout(() => {
-        this.setState({ error: false, message: null })
-      }, 5000)
+      this.props.setNotification(`login unsuccesful`, 5)
     }
   }
 
@@ -75,6 +69,7 @@ class App extends React.Component {
     event.preventDefault()
     window.localStorage.removeItem('loggedUser')
     this.setState({ user: null })
+    this.props.setNotification('logged out', 8)
   }
 
   // selectBlog = event => {
@@ -140,7 +135,7 @@ class App extends React.Component {
       <Router>
         <div>
           <h1>Bloglist app</h1>
-          <Notification message={this.state.message} error={this.state.error} />
+          <Notification />
           <Route
             exact
             path="/"
@@ -190,4 +185,7 @@ class App extends React.Component {
   }
 }
 
-export default App
+export default connect(
+  null,
+  { setNotification },
+)(App)

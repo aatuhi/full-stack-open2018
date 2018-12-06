@@ -1,5 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { setNotification } from '../reducers/notificationReducer'
+import loginService from '../services/login'
+import blogService from '../services/blogs'
+import { connect } from 'react-redux'
 
 const LoginForm = props => {
   return (
@@ -29,6 +33,15 @@ const LoginForm = props => {
     </div>
   )
 }
+
+const mapDispatchToProps = {
+  setNotification,
+}
+
+const ConnectedLoginForm = connect(
+  null,
+  mapDispatchToProps,
+)(LoginForm)
 
 LoginForm.propTypes = {
   onLogin: PropTypes.func.isRequired,
