@@ -1,0 +1,10 @@
+{
+  "extends": "airbnb",
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  "rules": {
+    "semi": 0,
+    "no-console": 0
+  }
+}
