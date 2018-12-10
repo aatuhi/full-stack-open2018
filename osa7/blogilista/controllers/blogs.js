@@ -72,8 +72,22 @@ blogsRouter.post('/:id/comments', async (request, response) => {
       blog: request.params.id,
     })
 
-    const savedComment = await comment.save()
-    return response.status(201).json(savedComment)
+    const { _id } = await comment.save()
+    const commentToReturn = await Comment.findById({ _id }).populate('blog', {
+      title: 1,
+    })
+    // redux-state saa nyt kommentin suoraan oikeassa muodossa
+
+    return response.status(201).json(formatComment(commentToReturn))
+  } catch (exception) {
+    console.log(exception)
+  }
+})
+
+blogsRouter.delete('/:id/comments', async (request, response) => {
+  try {
+    await Comment.deleteMany({ blog: request.params.id })
+    response.status(204).end()
   } catch (exception) {
     console.log(exception)
   }
@@ -108,7 +122,11 @@ blogsRouter.post('/', async (request, response) => {
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
 
-    return response.status(201).json(formatBlog(savedBlog))
+    const blogToReturn = await Blog.findById(savedBlog._id).populate('user', {
+      username: 1,
+      name: 1,
+    }) // redux-state saa nyt blogin oikeassa muodossa
+    return response.status(201).json(formatBlog(blogToReturn))
   } catch (exception) {
     if (exception.name === 'JsonWebTokenError') {
       return response.status(401).json({ error: exception.message })

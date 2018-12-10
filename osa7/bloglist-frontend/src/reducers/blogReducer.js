@@ -1,7 +1,8 @@
 import blogService from '../services/blogs'
+import commentService from '../services/comments'
 
 const blogReducer = (state = [], action) => {
-  console.log('Blogreducer action', action)
+  console.log('Blogreducer action', action.data)
   switch (action.type) {
     case 'INIT_BLOGS':
       return action.data.sort((a, b) => b.likes - a.likes)
@@ -45,6 +46,7 @@ export const blogCreation = blogObject => {
 
 export const blogRemoval = blog => {
   return async dispatch => {
+    await commentService.removeAll(blog)
     await blogService.remove(blog._id)
     dispatch({
       type: 'REMOVE_BLOG',

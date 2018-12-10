@@ -4,6 +4,8 @@ import blogService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
 import { blogRemoval, blogLiking } from '../reducers/blogReducer'
 import { commentCreation } from '../reducers/commentReducer'
+import commentService from '../services/comments'
+import axios from 'axios'
 
 class Blog extends React.Component {
   deleteBlog = async blog => {
@@ -18,6 +20,16 @@ class Blog extends React.Component {
     this.props.blogLiking(blog)
     this.props.setNotification(`You liked a blog '${blog.title}'`, 5)
   }
+
+  addComment = async event => {
+    event.preventDefault()
+    const content = event.target.content.value
+    console.log(content)
+    event.target.content.value = ''
+    this.props.commentCreation(this.props.blog, { content })
+    this.props.setNotification(`Comment '${content}' was added`, 5)
+  }
+
   render() {
     console.log('blog', this.props.blog)
     console.log('logged user', this.props.user)
@@ -47,11 +59,16 @@ class Blog extends React.Component {
             )}
             <div>
               <h3>Comments</h3>
+              {this.props.comments.length < 1 && <div>No comments added</div>}
               <ul>
-                {this.props.comments.map(comment => (
-                  <li key={comment._id}>{comment.content}</li>
-                ))}
+                {this.props.comments.length > 0 &&
+                  this.props.comments.map(comment => <li key={comment._id}>{comment.content}</li>)}
               </ul>
+              <form onSubmit={this.addComment}>
+                <label htmlFor="comment">Add comment:</label>
+                <input name="content" />
+                <button type="submit">Add comment</button>
+              </form>
             </div>
           </div>
         )}

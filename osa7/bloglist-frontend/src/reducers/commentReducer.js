@@ -22,7 +22,7 @@ export const commentInitialization = () => {
   }
 }
 
-export const commentCreation = async (blog, content) => {
+export const commentCreation = (blog, content) => {
   return async dispatch => {
     const comment = await commentService.create(blog, content)
     dispatch({

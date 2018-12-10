@@ -10,6 +10,7 @@ const User = ({ user }) => {
           <h2>{user.name}</h2>
           <div>also known as {user.username}</div>
           <h3>Added blogs:</h3>
+          {user.blogs.length < 1 && <div> {user.name} has not added any blogs yet</div>}
           <ul>
             {user.blogs.length > 0 && user.blogs.map(blog => <li key={blog._id}>{blog.title}</li>)}
           </ul>

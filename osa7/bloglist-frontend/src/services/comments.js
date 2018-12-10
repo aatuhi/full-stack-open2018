@@ -9,7 +9,13 @@ const getAll = async () => {
 
 const create = async (blog, content) => {
   const response = await axios.post(`${baseUrl}/${blog._id}/comments`, content)
+  console.log(response)
   return response.data
 }
 
-export default { getAll, create }
+const removeAll = async blog => {
+  const response = await axios.delete(`${baseUrl}/${blog._id}/comments`)
+  return response.status
+}
+
+export default { getAll, create, removeAll }
