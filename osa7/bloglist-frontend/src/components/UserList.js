@@ -1,30 +1,43 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Table } from 'semantic-ui-react'
 
 const UserList = ({ users }) => {
   // error: validate dom nesting
+  const headerStyle = {
+    color: 'white',
+    background: '#900C3F',
+  }
+
+  const listStyle = {
+    color: '#900C3F',
+    background: '#F7F7F7  ',
+  }
+
   return (
     <div>
       <h2>Users</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Blogs</th>
-          </tr>
+      <Table singleLine inverted>
+        <Table.Header style={headerStyle}>
+          <Table.Row>
+            <Table.HeaderCell>Username</Table.HeaderCell>
+            <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Blogs</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body style={listStyle}>
           {users.map(user => (
-            <tr key={user._id}>
-              <Link to={`/users/${user._id}`}>
-                <td>{user.username}</td>
-              </Link>
-              <td>{user.name}</td>
-              <td>{user.blogs.length}</td>
-            </tr>
+            <Table.Row key={user._id}>
+              <Table.Cell>
+                <Link to={`/users/${user._id}`}>{user.username}</Link>
+              </Table.Cell>
+              <Table.Cell>{user.name}</Table.Cell>
+              <Table.Cell>{user.blogs.length}</Table.Cell>
+            </Table.Row>
           ))}
-        </tbody>
-      </table>
+        </Table.Body>
+      </Table>
     </div>
   )
 }

@@ -16,6 +16,7 @@ import { userInitialization } from './reducers/userReducer'
 import { blogCreation, blogInitialization, blogLiking } from './reducers/blogReducer'
 import { userLoggingIn, userLoggingOut } from './reducers/loggedUserReducer'
 import { commentInitialization } from './reducers/commentReducer'
+import { Container } from 'semantic-ui-react'
 
 class App extends React.Component {
   constructor(props) {
@@ -94,63 +95,61 @@ class App extends React.Component {
     console.log('rendering')
 
     return (
-      <Router>
-        <div>
-          <h1>Bloglist app</h1>
-          {this.props.user && <NavigationBar />}
-          <Notification />
-          <Route
-            exact
-            path="/"
-            render={() =>
-              this.props.user === null ? (
-                <LoginForm
-                  username={this.state.username}
-                  password={this.state.password}
-                  onFieldChange={this.handleFieldChange}
-                  onLogin={this.handleLogin}
-                />
-              ) : (
-                <div>
-                  <div>
-                    {this.props.user.name} logged in
-                    <button type="button" onClick={this.handleLogout}>
-                      Log out
-                    </button>
-                  </div>
-                  <Togglable buttonLabel="Create a new Blog" ref={c => (this.BlogForm = c)}>
-                    <BlogForm
-                      title={this.state.title}
-                      author={this.state.author}
-                      url={this.state.url}
-                      onCreateBlog={this.createBlog}
-                      onFieldChange={this.handleFieldChange}
-                    />
-                  </Togglable>
-                </div>
-              )
-            }
-          />
-          <Route exact path="/blogs" render={() => <BlogList />} />
-          <Route
-            exact
-            path="/users/:id"
-            render={({ match }) => <User user={this.userById(match.params.id)} />}
-          />
-          <Route exact path="/users" render={() => <UserList />} />
-          <Route
-            path="/blogs/:id"
-            render={({ match, history }) => (
-              <Blog
-                history={history}
-                blog={this.blogById(match.params.id)}
-                comments={this.commentsByBlogId(match.params.id)}
-                token={this.props.user.token}
-              />
+      <Container>
+        <Router>
+          <div>
+            <h1>Bloglist app</h1>
+            {this.props.user && (
+              <NavigationBar user={this.props.user} handleLogout={this.handleLogout} />
             )}
-          />
-        </div>
-      </Router>
+            <Notification />
+            <Route
+              exact
+              path="/"
+              render={() =>
+                this.props.user === null ? (
+                  <LoginForm
+                    username={this.state.username}
+                    password={this.state.password}
+                    onFieldChange={this.handleFieldChange}
+                    onLogin={this.handleLogin}
+                  />
+                ) : (
+                  <div>
+                    <Togglable buttonLabel="Create a new Blog" ref={c => (this.BlogForm = c)}>
+                      <BlogForm
+                        title={this.state.title}
+                        author={this.state.author}
+                        url={this.state.url}
+                        onCreateBlog={this.createBlog}
+                        onFieldChange={this.handleFieldChange}
+                      />
+                    </Togglable>
+                  </div>
+                )
+              }
+            />
+            <Route exact path="/blogs" render={() => <BlogList />} />
+            <Route
+              exact
+              path="/users/:id"
+              render={({ match }) => <User user={this.userById(match.params.id)} />}
+            />
+            <Route exact path="/users" render={() => <UserList />} />
+            <Route
+              path="/blogs/:id"
+              render={({ match, history }) => (
+                <Blog
+                  history={history}
+                  blog={this.blogById(match.params.id)}
+                  comments={this.commentsByBlogId(match.params.id)}
+                  token={this.props.user.token}
+                />
+              )}
+            />
+          </div>
+        </Router>
+      </Container>
     )
   }
 }

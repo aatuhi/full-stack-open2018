@@ -1,24 +1,30 @@
 import React from 'react'
+import { Form, Button, Input } from 'semantic-ui-react'
 
 const BlogForm = props => {
+  const formStyle = {
+    marginTop: '10px',
+  }
   return (
-    <div className="blog-form">
+    <div style={formStyle}>
       <h3>Create a new blog</h3>
-      <form onSubmit={props.onCreateBlog}>
-        <div>
-          Title:
+      <Form onSubmit={props.onCreateBlog}>
+        <Form.Field>
+          <label>Title</label>
           <input type="text" name="title" value={props.title} onChange={props.onFieldChange} />
-        </div>
-        <div>
-          Author:
+        </Form.Field>
+        <Form.Field>
+          <label>Author</label>
           <input type="text" name="author" value={props.author} onChange={props.onFieldChange} />
-        </div>
-        <div>
-          Url:
+        </Form.Field>
+        <Form.Field>
+          <label>Url</label>
           <input type="text" name="url" value={props.url} onChange={props.onFieldChange} />
-        </div>
-        <button type="submit">Create</button>
-      </form>
+        </Form.Field>
+        <Button primary type="submit">
+          Create
+        </Button>
+      </Form>
     </div>
   )
 }

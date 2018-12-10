@@ -1,35 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { setNotification } from '../reducers/notificationReducer'
-import loginService from '../services/login'
-import blogService from '../services/blogs'
 import { connect } from 'react-redux'
+import { Form, Button, Input } from 'semantic-ui-react'
 
 const LoginForm = props => {
   return (
     <div className="login-form">
       <h2>Log in to application</h2>
-      <form onSubmit={props.onLogin}>
-        <div>
-          Username:
-          <input
+      <Form onSubmit={props.onLogin}>
+        <Form.Field>
+          <label>username</label>
+          <Input
             type="text"
             name="username"
             value={props.username}
             onChange={props.onFieldChange}
           />
-        </div>
-        <div>
-          Password:
-          <input
+        </Form.Field>
+        <Form.Field>
+          <label>password</label>
+          <Input
             type="password"
             name="password"
             value={props.password}
             onChange={props.onFieldChange}
           />
-        </div>
-        <button type="submit">Log in</button>
-      </form>
+        </Form.Field>
+        <Button primary type="submit">
+          Log in
+        </Button>
+      </Form>
     </div>
   )
 }

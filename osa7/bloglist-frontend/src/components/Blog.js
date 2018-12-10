@@ -4,8 +4,7 @@ import blogService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
 import { blogRemoval, blogLiking } from '../reducers/blogReducer'
 import { commentCreation } from '../reducers/commentReducer'
-import commentService from '../services/comments'
-import axios from 'axios'
+import { Button, Form, Input, Label } from 'semantic-ui-react'
 
 class Blog extends React.Component {
   deleteBlog = async blog => {
@@ -44,18 +43,24 @@ class Blog extends React.Component {
             <div>{this.props.blog.likes} likes </div>
             <div>written by {this.props.blog.author}</div>
             <div>added by {this.props.blog.user.name}</div>
-            <button type="button" onClick={() => this.likeBlog(this.props.blog)}>
-              like blog
-            </button>
+            <Button
+              primary
+              size="tiny"
+              type="button"
+              onClick={() => this.likeBlog(this.props.blog)}
+            >
+              Like blog
+            </Button>
             {this.props.blog.user.username === this.props.user.username && (
-              <button
+              <Button
+                warning
                 type="button"
                 onClick={() => {
                   this.deleteBlog(this.props.blog)
                 }}
               >
                 delete blog
-              </button>
+              </Button>
             )}
             <div>
               <h3>Comments</h3>
@@ -64,11 +69,13 @@ class Blog extends React.Component {
                 {this.props.comments.length > 0 &&
                   this.props.comments.map(comment => <li key={comment._id}>{comment.content}</li>)}
               </ul>
-              <form onSubmit={this.addComment}>
+              <Form onSubmit={this.addComment}>
                 <label htmlFor="comment">Add comment:</label>
-                <input name="content" />
-                <button type="submit">Add comment</button>
-              </form>
+                <Input name="content" />
+                <Button size="small" type="submit">
+                  Add comment
+                </Button>
+              </Form>
             </div>
           </div>
         )}
