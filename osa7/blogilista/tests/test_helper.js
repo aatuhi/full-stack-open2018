@@ -1,5 +1,6 @@
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const Comment = require('../models/comment')
 
 const initialBlogs = [
   {
@@ -28,6 +29,25 @@ const initialUsers = [
     name: 'Kayttaja',
     adult: false,
     password: 'salasana123',
+  },
+]
+
+const initialComments = [
+  {
+    content: 'comment 1',
+    likes: 1,
+  },
+  {
+    content: 'comment 2',
+    likes: 20,
+  },
+  {
+    content: 'comment 3',
+    likes: 3,
+  },
+  {
+    content: 'comment 4',
+    likes: 400,
   },
 ]
 
@@ -107,6 +127,18 @@ const formatUser = user => ({
   adult: user.adult,
 })
 
+const formatComment = comment => ({
+  _id: comment._id,
+  content: comment.content,
+  likes: comment.likes,
+})
+
+const commentsInDb = async () => {
+  const comments = await Comment.find({})
+  return comments.map(formatComment)
+}
+
+
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
   return blogs.map(formatBlog)
@@ -126,4 +158,5 @@ module.exports = {
   initialUsers,
   listWithMultipleBlogs,
   listWithOneBlog,
+  initialComments,
 }

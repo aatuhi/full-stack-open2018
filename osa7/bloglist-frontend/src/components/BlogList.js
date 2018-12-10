@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const BlogList = ({ blogs }) => {
   return (
@@ -17,4 +18,10 @@ const BlogList = ({ blogs }) => {
   )
 }
 
-export default BlogList
+const mapStateToProps = state => ({
+  blogs: state.blogs,
+})
+
+const ConnectedBlogList = connect(mapStateToProps)(BlogList)
+
+export default ConnectedBlogList

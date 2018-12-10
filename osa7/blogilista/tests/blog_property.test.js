@@ -8,7 +8,7 @@ test('dummy is called', () => {
   expect(result).toBe(1)
 })
 
-describe('total likes', () => {
+describe.skip('total likes', () => {
   test('when list has only one blog equals the likes of that', () => {
     const result = listHelper.totalLikes(helper.listWithOneBlog)
     expect(result).toBe(5)
@@ -20,14 +20,14 @@ describe('total likes', () => {
   })
 })
 
-describe('favorite blog', () => {
+describe.skip('favorite blog', () => {
   test('equals the blog with most likes', () => {
     const result = listHelper.favoriteBlog(helper.listWithMultipleBlogs)
     expect(result).toEqual(helper.listWithMultipleBlogs[2])
   })
 })
 
-test('equals the author with most blogs', () => {
+test.skip('equals the author with most blogs', () => {
   const authorWithMostBlogs = { author: 'Robert C. Martin', blogs: 3 }
 
   const result = listHelper.mostBlogs(helper.listWithMultipleBlogs)

@@ -14,7 +14,6 @@ export const setNotification = (notification, duration) => {
       type: 'SET_NOTIFICATION',
       notification: notification,
     })
-    console.log('timeout')
     setTimeout(
       () =>
         dispatch({

@@ -2,6 +2,7 @@ const blogsRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const Comment = require('../models/comment')
 
 const formatBlog = blog => ({
   _id: blog._id,
@@ -12,12 +13,69 @@ const formatBlog = blog => ({
   user: blog.user,
 })
 
+const formatComment = comment => ({
+  _id: comment._id,
+  content: comment.content,
+  likes: comment.likes,
+  blog: comment.blog,
+})
+
 blogsRouter.get('/', async (request, response) => {
   try {
     const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
-    response.json(blogs.map(formatBlog))
-  } catch (expection) {
-    console.log(expection)
+    return response.json(blogs.map(formatBlog))
+  } catch (exception) {
+    console.log(exception)
+  }
+})
+
+blogsRouter.get('/:id', async (request, response) => {
+  try {
+    const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 })
+    return response.json(formatBlog(blog))
+  } catch (exception) {
+    console.log(exception)
+  }
+})
+
+blogsRouter.get('/all/comments', async (request, response) => {
+  try {
+    const comments = await Comment.find({}).populate('blog', {
+      title: 1,
+    })
+    return response.json(comments)
+  } catch (exception) {
+    console.log(exception)
+  }
+})
+
+blogsRouter.get('/:id/comments', async (request, response) => {
+  try {
+    const comments = await Comment.find({ blog: request.params.id }).populate('blog', {
+      title: 1,
+    })
+    return response.json(comments.map(formatComment))
+  } catch (exception) {
+    console.log(exception)
+  }
+})
+
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const { body } = request
+  try {
+    if (body.content.length < 1 || body.content === undefined) {
+      return response.status(400).json({ error: 'content missing' })
+    }
+    const comment = new Comment({
+      content: body.content,
+      likes: body.likes === undefined ? 0 : body.likes,
+      blog: request.params.id,
+    })
+
+    const savedComment = await comment.save()
+    return response.status(201).json(savedComment)
+  } catch (exception) {
+    console.log(exception)
   }
 })
 
@@ -50,14 +108,12 @@ blogsRouter.post('/', async (request, response) => {
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
 
-    response.status(201).json(formatBlog(savedBlog))
+    return response.status(201).json(formatBlog(savedBlog))
   } catch (exception) {
     if (exception.name === 'JsonWebTokenError') {
-      response.status(401).json({ error: exception.message })
-    } else {
-      console.log(exception)
-      response.status(500).json({ error: 'something went wrong...' })
+      return response.status(401).json({ error: exception.message })
     }
+    return response.status(500).json({ error: 'something went wrong...' })
   }
 })
 
@@ -79,11 +135,10 @@ blogsRouter.delete('/:id', async (request, response) => {
   } catch (exception) {
     if (exception.name === 'JsonWebTokenError') {
       console.log('id does not match')
-      response.status(401).json({ error: exception.message })
-    } else {
-      console.log(exception)
-      response.status(500).json({ error: 'something went wrong...' })
+      return response.status(401).json({ error: exception.message })
     }
+    console.log(exception)
+    return response.status(500).json({ error: 'something went wrong...' })
   }
 })
 
@@ -101,10 +156,10 @@ blogsRouter.put('/:id', async (request, response) => {
 
     await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
     console.log('updated')
-    response.json(formatBlog(blog))
+    return response.json(formatBlog(blog))
   } catch (expection) {
     console.log(expection)
-    response.status(400).send({ error: 'malformatted id ' })
+    return response.status(400).send({ error: 'malformatted id ' })
   }
 })
 

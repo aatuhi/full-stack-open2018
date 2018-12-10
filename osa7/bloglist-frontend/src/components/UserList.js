@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const UserList = ({ users }) => {
   // error: validate dom nesting
@@ -28,4 +29,11 @@ const UserList = ({ users }) => {
   )
 }
 
-export default UserList
+const mapStateToProps = (state, ownProps) => {
+  console.log('userlist ownprops', ownProps)
+  return { users: state.users }
+}
+
+const ConnectedUserList = connect(mapStateToProps)(UserList)
+
+export default ConnectedUserList
