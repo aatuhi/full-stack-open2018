@@ -5,7 +5,6 @@ import { Message } from 'semantic-ui-react'
 class Notification extends React.Component {
   render() {
     const style = {
-      border: 'solid',
       padding: 10,
       borderWidth: 1,
       marginBottom: 10,
@@ -13,10 +12,10 @@ class Notification extends React.Component {
     return (
       <div>
         {this.props.notification && (
-          <Message success style={style}>
+          <Message success floating style={style}>
             {this.props.notification}
           </Message>
-        )}
+       )}
       </div>
     )
   }

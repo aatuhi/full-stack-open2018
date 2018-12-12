@@ -1,11 +1,11 @@
 body {
   margin: 20;
   padding: 20;
-  background: rgb(225, 210, 230);
+  background: #eae1e3;
   font-family: 'Courier New', Courier, monospace;
 }
 
-.notification-good {
+/* .notification-good {
   color: black;
   background: lightgreen;
   font-size: 20px;
@@ -40,4 +40,4 @@ li:hover {
   border-style: hidden;
   border-radius: 5px;
   margin: 50;
-}
+} */

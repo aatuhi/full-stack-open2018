@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form, Button, Input } from 'semantic-ui-react'
+import { Form, Button } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
 
 const BlogForm = props => {
   const formStyle = {
@@ -10,15 +11,15 @@ const BlogForm = props => {
       <h3>Create a new blog</h3>
       <Form onSubmit={props.onCreateBlog}>
         <Form.Field>
-          <label>Title</label>
+          <label htmlFor="title">Title</label>
           <input type="text" name="title" value={props.title} onChange={props.onFieldChange} />
         </Form.Field>
         <Form.Field>
-          <label>Author</label>
+          <label htmlFor="author">Author</label>
           <input type="text" name="author" value={props.author} onChange={props.onFieldChange} />
         </Form.Field>
         <Form.Field>
-          <label>Url</label>
+          <label htmlFor="url">Url</label>
           <input type="text" name="url" value={props.url} onChange={props.onFieldChange} />
         </Form.Field>
         <Button primary type="submit">
@@ -27,6 +28,14 @@ const BlogForm = props => {
       </Form>
     </div>
   )
+}
+
+BlogForm.propTypes = {
+  onFieldChange: PropTypes.func.isRequired,
+  onCreateBlog: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 }
 
 export default BlogForm

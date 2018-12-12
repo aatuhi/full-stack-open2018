@@ -1,15 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, Button } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
 
 const NavigationBar = ({ user, handleLogout }) => {
   const navigationBarStyle = {
     color: '#D7B7B7',
     background: '#900C3F',
-    // borderStyle: 'hidden',
-    // borderRadius: '5px',
-    // padding: '5px',
-    // marginBottom: '10px',
   }
 
   return (
@@ -33,6 +30,10 @@ const NavigationBar = ({ user, handleLogout }) => {
       </Menu>
     </React.Fragment>
   )
+}
+
+NavigationBar.propTypes = {
+  handleLogout: PropTypes.func.isRequired
 }
 
 export default NavigationBar

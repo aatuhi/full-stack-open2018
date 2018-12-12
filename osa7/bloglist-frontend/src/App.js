@@ -46,10 +46,10 @@ class App extends React.Component {
     const userCredentials = { username: this.state.username, password: this.state.password }
     try {
       this.props.userLoggingIn(userCredentials)
-      this.props.setNotification(`Welcome ${this.state.username}`, 5)
+     // this.props.setNotification(`Welcome ${this.state.username}`, 5)
       this.setState({ username: '', password: '' })
     } catch (execption) {
-      console.log(execption)
+      console.log('exception', execption)
       this.props.setNotification(`Something went wrong`, 5)
     }
   }

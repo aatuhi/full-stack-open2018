@@ -4,7 +4,8 @@ import blogService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
 import { blogRemoval, blogLiking } from '../reducers/blogReducer'
 import { commentCreation } from '../reducers/commentReducer'
-import { Button, Form, Input, Label } from 'semantic-ui-react'
+import { Button, Form, Input, Grid } from 'semantic-ui-react'
+import { Link } from 'react-router-redux'
 
 class Blog extends React.Component {
   deleteBlog = async blog => {
@@ -33,12 +34,15 @@ class Blog extends React.Component {
     console.log('blog', this.props.blog)
     console.log('logged user', this.props.user)
     return (
-      <div>
-        {this.props.blog && (
-          <div>
+      <Grid divided='vertically'>
+            {this.props.blog && (
+              <React.Fragment>
+
+              <Grid.Row columns={1}>
+                <Grid.Column>
             <h2>{this.props.blog.title}</h2>
             <div>
-              <a href={this.props.blog.url}>{this.props.blog.url}</a>
+{this.props.blog.url}
             </div>
             <div>{this.props.blog.likes} likes </div>
             <div>written by {this.props.blog.author}</div>
@@ -53,7 +57,8 @@ class Blog extends React.Component {
             </Button>
             {this.props.blog.user.username === this.props.user.username && (
               <Button
-                warning
+              size="tiny"
+                negative
                 type="button"
                 onClick={() => {
                   this.deleteBlog(this.props.blog)
@@ -62,24 +67,28 @@ class Blog extends React.Component {
                 delete blog
               </Button>
             )}
-            <div>
-              <h3>Comments</h3>
-              {this.props.comments.length < 1 && <div>No comments added</div>}
-              <ul>
-                {this.props.comments.length > 0 &&
+                      </Grid.Column>
+            </Grid.Row>
+            <Grid.Row columns={1}>
+              <Grid.Column>
+                  <h3>Comments</h3>
+                  {this.props.comments.length < 1 && <div>No comments added</div>}
+                    <ul>
+                     {this.props.comments.length > 0 &&
                   this.props.comments.map(comment => <li key={comment._id}>{comment.content}</li>)}
               </ul>
               <Form onSubmit={this.addComment}>
                 <label htmlFor="comment">Add comment:</label>
                 <Input name="content" />
-                <Button size="small" type="submit">
+                <Button primary size="tiny" type="submit">
                   Add comment
                 </Button>
               </Form>
-            </div>
-          </div>
+              </Grid.Column>
+          </Grid.Row>
+          </React.Fragment>         
         )}
-      </div>
+      </Grid>
     )
   }
 }
